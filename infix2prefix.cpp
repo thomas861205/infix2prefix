@@ -18,12 +18,16 @@ void Postfix(string prefix){
 	while(i != prefix.length()){
 		if (prefix[i+1] >= 48 && prefix[i+1] <= 57) cout << prefix[i+1];
 		else if (prefix[i+1] == '+' || prefix[i+1] == '-' || prefix[i+1] == '*' || prefix[i+1] == '/'){
-			for (; Priority(operators.top()) <= Priority(prefix[i + 1]); operators.pop()){
+			for (; Priority(operators.top()) <= Priority(prefix[i+1]); operators.pop())
 				cout << operators.top();
-			}
 			operators.push(prefix[i+1]);
 		}
-		else;
+		else if (prefix[i+1] == '(') operators.push(prefix[i+1]);
+		else if (prefix[i+1] == ')'){
+			for (; operators.top() != '('; operators.pop())
+				cout << operators.top();
+			operators.pop();
+		}
 		i++;
 	}
 	while(operators.top() != '#'){
